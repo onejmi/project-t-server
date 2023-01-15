@@ -6,6 +6,8 @@ import { QGen } from "./qgen.js";
 
 async function main() {
 
+    let userMap = new Map();
+
     const port = 4000;
     // const app = express();
     // app.listen(port, () => {
@@ -28,6 +30,15 @@ async function main() {
         console.log('does this even work lol')
         // send a message to the client
         socket.emit("hello from server", "dddd");
+
+        socket.on('user_points', (userId, points) => {
+          if (userMap.has(userId)) {
+            userMap.set(userId, userMap.get(userId) + points);
+            console.log(`User ${userId} now has ${points} points!!!`);
+          } else {
+            userMap.set(userId, points);
+          }
+        })
       
         // receive a message from the client
         socket.on("transcript_message", async (transcript) => {
