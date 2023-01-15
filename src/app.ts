@@ -34,14 +34,7 @@ async function main() {
           console.log('Transcript received: ', transcript);
           const response = await questionGen.generateQuestions(transcript);
           console.log(response);
-          const rObject = JSON.parse(response);
-
-          for(const question of rObject) {
-            // @ts-ignore
-            console.log('Question: ' , question.question);
-            // @ts-ignore
-            console.log('Answer: ', question.answer);
-          }
+          io.sockets.emit('questions_message', response);
         });
       });
 
